@@ -5,6 +5,7 @@ import { Button } from "./ui/button";
 import { ComboboxDemo } from "./Combobox";
 import { Textarea } from "./ui/textarea";
 import { useGraph } from "@/context/GraphContext";
+import { Input } from "./ui/input";
 
 const Sidebar = () => {
   const [edgesInput, setEdgesInput] = React.useState("");
@@ -74,28 +75,49 @@ const Sidebar = () => {
     setEdgesInput(edges.join("\n"));
   };
 
+  const handleFileInput = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      const content = e.target?.result as string;
+      setEdgesInput(content);
+    };
+    reader.readAsText(file);
+  };
   return (
-    <div className="w-[400px] border border-red-500">
-      <div>
-        <h3 className="font-medium mb-2">Nhập danh sách cạnh</h3>
-        <div className="space-x-2 mb-2">
-          <Button onClick={generateRandomEdges}>Random</Button>
-          <Button>Chọn File</Button>
+    <div className="w-[500px] border border-gray-400">
+      <div className="ml-4 mr-4">
+        <h3 className="font-medium mt-2 mb-2 text-center font-bold text-lg ">Nhập danh sách cạnh có hướng</h3>
+        <div className="space-x-2 mb-3 flex justify-between ">
+          <Button className="w-[150px] h-[40px]" onClick={generateRandomEdges}>Random</Button>
+
+          <label className="relative cursor-pointer inline-block">
+            <Button className="w-[150px] h-[40px]">Chọn File</Button>
+            <Input
+              className="absolute inset-0 opacity-0 cursor-pointer"
+              id="file"
+              type="file"
+              accept=".txt"
+              onChange={handleFileInput}
+            />
+          </label>
         </div>
         <div>
           <Textarea
             className="h-[300px] font-mono"
             value={edgesInput}
             onChange={(e) => setEdgesInput(e.target.value)}
-            placeholder="Nhập danh sách cạnh theo định dạng: source target weight
-                Ví dụ:
-                0 1 2
-                1 2 3
-                0 3 6
-                1 3 8
-                1 4 5
-                2 4 7
-                3 4 9"
+            placeholder={`Nhập danh sách cạnh theo định dạng: source target weight
+          Ví dụ:
+          0 1 2
+          1 2 3
+          0 3 6
+          1 3 8
+          1 4 5
+          2 4 7
+          3 4 9`}
           />
         </div>
         <div className="mt-2">
@@ -103,7 +125,7 @@ const Sidebar = () => {
         </div>
       </div>
 
-      <div className="mt-4">
+      <div className="m-4">
         <div className="mb-2">Chọn thuật toán</div>
         <ComboboxDemo />
       </div>

@@ -12,7 +12,7 @@ import {
 
 const Header = () => {
   return (
-    <header className="items-center justify-between gap-5 p-5 sm:flex lg:py-7 xl:gap-10 !important">
+    <header className="items-center justify-between gap-4 p-4 sm:flex  xl:gap-7 !important">
       <Image src="/assets/logo.jpg" alt="logo" width={50} height={50} />
       <Dialog>
         <DialogTrigger>
