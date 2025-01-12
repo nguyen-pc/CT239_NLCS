@@ -23,6 +23,7 @@ import { prim } from "@/app/algorthms/prim";
 import { dijkstra } from "@/app/algorthms/dijkstra";
 import { floyd } from "@/app/algorthms/floyd";
 import { bruteForce } from "@/app/algorthms/brute-force";
+import { branchAndBoundTSP } from "@/app/algorthms/branch-and-bound";
 
 const frameworks = [
   {
@@ -30,7 +31,7 @@ const frameworks = [
     label: "TSP",
     subOptions: [
       { value: "brute-force", label: "Brute Force" },
-      { value: "genetic", label: "Genetic Algorithm" },
+      { value: "branchAndBound", label: "Branch And Bound" },
     ],
   },
   {
@@ -69,6 +70,7 @@ export function ComboboxDemo() {
     setAlgorithmResult,
     setAlgorithmResultDijkstra,
     setAlgorithmResultBrute,
+    setAlgorithmResultBranchAndBound
   } = useGraph();
 
   const selectedFramework = frameworks.find(
@@ -93,9 +95,13 @@ export function ComboboxDemo() {
         setAlgorithmResultBrute(resultBrute);
         console.log(resultBrute);
         break;
+      case "branchAndBound":
+        const resultBranchAndBound = branchAndBoundTSP(edges, vertexCount, 0);
+        console.log(resultBranchAndBound);
+        setAlgorithmResultBranchAndBound(resultBranchAndBound)
+        break;
       case "kruskal":
         const resultKruskal = kruskal(edges, vertexCount);
-        console.log(resultKruskal.totalWeight);
 
         setAlgorithmResult(resultKruskal);
         break;

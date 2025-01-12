@@ -38,6 +38,7 @@ export function FlowGraph() {
     algorithmResult,
     algorithmResultDijkstra,
     algorithmResultBrute,
+    algorithmResultBranchAndBound,
   } = useGraph();
   const [nodes, setNodes] = React.useState([]);
   const [edges, setEdges] = React.useState([]);
@@ -227,15 +228,15 @@ export function FlowGraph() {
 
       const isHorizontal = direction === "LR";
       dagreGraph.setGraph({ rankdir: direction });
-    
+
       nodes.forEach((node: any) => {
         dagreGraph.setNode(node.id, { width: nodeWidth, height: nodeHeight });
       });
-    
+
       edges.forEach((edge: any) => {
         dagreGraph.setEdge(edge.source, edge.target);
       });
-    
+
       dagre.layout(dagreGraph);
 
       const newNodes = nodes.map((node: any) => {
@@ -249,7 +250,7 @@ export function FlowGraph() {
             y: nodeWithPosition.y - nodeHeight / 2,
           },
         };
-    
+
         return newNode;
       });
 
@@ -258,6 +259,96 @@ export function FlowGraph() {
       console.log(edges, newNodes);
     }
   }, [algorithmResultBrute]);
+
+  React.useEffect(() => {
+    if (algorithmResultBranchAndBound && edges.length > 0) {
+      setEdges([]);
+      setNodes([]);
+      const minCost = algorithmResultBranchAndBound.resultNodes.reduce((acc, value) => {
+        if (!value.isLeaf) return acc;
+        return Math.min(acc, value.cost);
+      }, Infinity);
+
+      const nodes = algorithmResultBranchAndBound.resultNodes.map((value, i) => {
+        const res = {
+          id: String(value.id),
+          type: "tree",
+          data: {
+            label: `TT: ${i + 1} | TGT: ${value.cost}`,
+            path: value.isLeaf ? value.id : null,
+            bound: value.bound,
+            style: {
+              backgroundColor: "#fff",
+              width: 150,
+              minHeight: 60,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              color: "black",
+            },
+          },
+          position: {
+            x: 0,
+            y: 0,
+          },
+        };
+
+        if (value.isLeaf && value.cost === minCost) {
+          res.data.style.backgroundColor = "green";
+          res.data.style.color = "white";
+        }
+        if (value.pruned) {
+          res.data.style.backgroundColor = "red";
+          res.data.style.color = "white";
+        }
+        return res;
+      });
+
+      const edges = algorithmResultBranchAndBound.resultEdges.map((value) => {
+        return buildEdge(
+          value.from,
+          value.to,
+          `${value.to[value.to.length - 1]} - [${value.cost}]`,
+          true,
+          "green"
+        );
+      });
+
+      const direction = "LR";
+
+      const isHorizontal = direction === "LR";
+      dagreGraph.setGraph({ rankdir: direction });
+
+      nodes.forEach((node: any) => {
+        dagreGraph.setNode(node.id, { width: nodeWidth, height: nodeHeight });
+      });
+
+      edges.forEach((edge: any) => {
+        dagreGraph.setEdge(edge.source, edge.target);
+      });
+
+      dagre.layout(dagreGraph);
+
+      const newNodes = nodes.map((node: any) => {
+        const nodeWithPosition = dagreGraph.node(node.id);
+        const newNode = {
+          ...node,
+          targetPosition: isHorizontal ? "left" : "top",
+          sourcePosition: isHorizontal ? "right" : "bottom",
+          position: {
+            x: nodeWithPosition.x - nodeWidth / 2,
+            y: nodeWithPosition.y - nodeHeight / 2,
+          },
+        };
+
+        return newNode;
+      });
+
+      setEdges(edges);
+      setNodes(newNodes);
+      console.log(edges, newNodes);
+    }
+  }, [algorithmResultBranchAndBound]);
   return (
     <div style={{ height: "100%" }}>
       <ReactFlow
