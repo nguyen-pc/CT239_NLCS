@@ -49,7 +49,7 @@ export function prim(edges: Edge[], vertexCount: number) {
     visited[minIndex] = true;
 
     // Cập nhật key cho các đỉnh kề chưa thăm
-    for (let v = 1; v < vertexCount; v++) {
+    for (let v = 0; v < vertexCount; v++) {
       // Nếu có cạnh nối, chưa thăm và trọng số nhỏ hơn key hiện tại
       if (
         graph[minIndex][v] > 0 &&
@@ -62,7 +62,7 @@ export function prim(edges: Edge[], vertexCount: number) {
     }
   }
 
-  for (let i = 1; i < vertexCount; i++) {
+  for (let i = 0; i < vertexCount; i++) {
     if (parent[i] !== -1) {
       const edge = {
         source: parent[i],

@@ -22,7 +22,7 @@ const Header = () => {
           <DialogHeader>
             <DialogTitle>Niên luận ngành kĩ thuật phần mềm</DialogTitle>
             <DialogDescription >
-              Sinh viên thực hiện: Nguyễn Hoàng Thanh Nguyên - MSSV: B2203516
+              SVTH: NGUYỄN HOÀNG THANH NGUYÊN - MSSV: B2203516
             </DialogDescription>
             <DialogDescription>
               GVHD: THS. TRƯƠNG THỊ THANH TUYỀN - BỘ MÔN CÔNG NGHỆ PHẦN MỀM

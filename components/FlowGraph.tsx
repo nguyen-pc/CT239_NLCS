@@ -7,6 +7,8 @@ import {
   OnNodesChange,
   applyNodeChanges,
   MarkerType,
+  OnEdgesChange,
+  applyEdgeChanges,
 } from "@xyflow/react";
 import "@xyflow/react/dist/style.css";
 import React from "react";
@@ -77,6 +79,11 @@ export function FlowGraph() {
   // Xử lý sự kiện khi nodes thay đổi (kéo thả)
   const onNodesChange: OnNodesChange = React.useCallback(
     (changes) => setNodes((nds) => applyNodeChanges(changes, nds)),
+    []
+  );
+
+  const onEdgesChange: OnEdgesChange = React.useCallback(
+    (changes) => setEdges((nds) => applyEdgeChanges(changes, nds)),
     []
   );
   // Vẽ đồ thị ban đầu khi có dữ liệu edges mới
@@ -358,6 +365,7 @@ export function FlowGraph() {
         edgeTypes={edgeTypes}
         fitView
         onNodesChange={onNodesChange}
+        onEdgesChange={onEdgesChange}
         defaultEdgeOptions={{
           style: { strokeWidth: 2 },
           // type: "smoothstep",
