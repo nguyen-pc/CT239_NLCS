@@ -41,6 +41,7 @@ export function FlowGraph() {
     algorithmResultDijkstra,
     algorithmResultBrute,
     algorithmResultBranchAndBound,
+    isDirected
   } = useGraph();
   const [nodes, setNodes] = React.useState([]);
   const [edges, setEdges] = React.useState([]);
@@ -84,8 +85,10 @@ export function FlowGraph() {
 
   const onEdgesChange: OnEdgesChange = React.useCallback(
     (changes) => setEdges((nds) => applyEdgeChanges(changes, nds)),
-    []
+    [setEdges]
   );
+
+  
   // Vẽ đồ thị ban đầu khi có dữ liệu edges mới
   React.useEffect(() => {
     if (graphEdges && graphEdges.length > 0) {
@@ -109,10 +112,10 @@ export function FlowGraph() {
         target: `${edge.target}`,
         label: `${edge.weight}`,
         type: "smoothstep",
-        style: { stroke: "#666" },
+        style: { stroke: "#666",strokeWidth: 3  },
         labelStyle: { fill: "#666" },
-        markerEnd: {
-          type: "arrow",
+        markerEnd: !isDirected ? null :{
+           type: "arrow",
           width: 20,
           height: 20,
           color: "#666",
@@ -138,11 +141,11 @@ export function FlowGraph() {
         if (isInMST) {
           return {
             ...edge,
-            style: { stroke: "#000", strokeWidth: 3 },
+            style: { stroke: "green", strokeWidth: 3 },
             labelStyle: { fill: "#2563eb" },
             markerEnd: {
               ...edge.markerEnd,
-              color: "#000",
+              color: "green",
             },
           };
         }
@@ -165,11 +168,11 @@ export function FlowGraph() {
         if (isInDijkstra) {
           return {
             ...edge,
-            style: { stroke: "#000", strokeWidth: 3 },
+            style: { stroke: "green", strokeWidth: 3 },
             labelStyle: { fill: "#2563eb" },
             markerEnd: {
               ...edge.markerEnd,
-              color: "#000",
+              color: "green",
             },
           };
         }
@@ -285,7 +288,7 @@ export function FlowGraph() {
             path: value.isLeaf ? value.id : null,
             bound: value.bound,
             style: {
-              backgroundColor: "#fff",
+              backgroundColor: "#ccc",
               width: 150,
               minHeight: 60,
               display: "flex",
@@ -321,9 +324,9 @@ export function FlowGraph() {
         );
       });
 
-      const direction = "LR";
+      const direction = "TB";
 
-      const isHorizontal = direction === "LR";
+      const isHorizontal = direction === "TB";
       dagreGraph.setGraph({ rankdir: direction });
 
       nodes.forEach((node: any) => {

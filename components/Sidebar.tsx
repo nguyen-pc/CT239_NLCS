@@ -7,9 +7,18 @@ import { Textarea } from "./ui/textarea";
 import { useGraph } from "@/context/GraphContext";
 import { Input } from "./ui/input";
 
+import { Checkbox } from "./ui/checkbox";
+
 const Sidebar = () => {
   const [edgesInput, setEdgesInput] = React.useState("");
-  const { setEdges, setVertexCount } = useGraph();
+  const { setEdges, setVertexCount, setIsDirected } = useGraph();
+
+  const [directed, setDirected] = React.useState(false);
+
+  console.log(directed)
+  setIsDirected(directed)
+  
+
 
   // Hàm xử lý danh sách cạnh đầu vào
   const handleEdgesInput = () => {
@@ -89,9 +98,13 @@ const Sidebar = () => {
   return (
     <div className="w-[500px] border border-gray-400">
       <div className="ml-4 mr-4">
-        <h3 className="font-medium mt-2 mb-2 text-center font-bold text-lg ">Nhập danh sách cạnh có hướng</h3>
+        <h3 className=" mt-2 mb-2 text-center font-bold text-lg ">
+          Nhập danh sách cạnh có hướng
+        </h3>
         <div className="space-x-2 mb-3 flex justify-between ">
-          <Button className="w-[150px] h-[40px]" onClick={generateRandomEdges}>Random</Button>
+          <Button className="w-[150px] h-[40px]" onClick={generateRandomEdges}>
+            Random
+          </Button>
 
           <label className="relative cursor-pointer inline-block">
             <Button className="w-[150px] h-[40px]">Chọn File</Button>
@@ -119,6 +132,15 @@ const Sidebar = () => {
           2 4 7
           3 4 9`}
           />
+        </div>
+        <div className="mt-3">
+          <label
+            htmlFor="terms2"
+            className="text-lg font-medium mr-2"
+          >
+           Có hướng
+          </label>
+          <Checkbox checked={directed} onCheckedChange={(checked) => setDirected(checked)} />
         </div>
         <div className="mt-2">
           <Button onClick={handleEdgesInput}>Tạo đồ thị</Button>

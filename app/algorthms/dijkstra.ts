@@ -6,10 +6,10 @@ interface Edge {
 
 // Tìm đỉnh có khoang cách nhỏ nhất chưa thăm
 function findMin(dist: number[], visited: number[], n: number): number {
-  let min = 1;
+  let min = 0;
   let minDist = Infinity;
 
-  for (let u = 1; u <= n; u++) {
+  for (let u = 0; u <= n; u++) {
     if (!visited[u] && dist[u] < minDist) {
       min = u;
       minDist = dist[u];
@@ -48,13 +48,13 @@ export function dijkstra(
   dist[begin] = 0;
 
   // Duyet tu 1 den vertexCount
-  for (let i = 1; i <= vertexCount; i++) {
+  for (let i = 0; i <= vertexCount; i++) {
     const u = findMin(dist, visited, vertexCount);
 
     if (u === end) break;
     visited[u] = true;
     // Cap nhat khoang cach cho cac dinh ke
-    for (let v = 1; v <= vertexCount; v++) {
+    for (let v = 0; v <= vertexCount; v++) {
       if (!visited[v] && graph[u][v] !== 0 && dist[u] + graph[u][v] < dist[v]) {
         dist[v] = dist[u] + graph[u][v];
         trace[v] = u;

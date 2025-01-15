@@ -109,7 +109,7 @@ export function ComboboxDemo() {
       case "prim":
         // Thêm code cho thuật toán Prim
         const resultPrim = prim(edges, vertexCount);
-        console.log(resultPrim.totalWeight);
+        console.log(resultPrim);
         setAlgorithmResult(resultPrim);
         break;
 

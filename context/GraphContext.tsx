@@ -21,6 +21,9 @@ interface GraphContextType {
   setEdges: (edges: Edge[]) => void;
   vertexCount: number;
   setVertexCount: (count: number) => void;
+  isDirected: boolean
+  setIsDirected: (isDirected: boolean) => void
+  
 }
 
 // Tạo context với giá trị mặc định
@@ -44,6 +47,7 @@ export function GraphProvider({ children }: { children: React.ReactNode }) {
   const [algorithmResultBranchAndBound, setAlgorithmResultBranchAndBound] =
     useState<any>(null);
   const [edges, setEdges] = useState<Edge[]>([]);
+  const [isDirected, setIsDirected] = useState<boolean>(false)
   const [vertexCount, setVertexCount] = useState<number>(0);
 
   const value = {
@@ -59,6 +63,8 @@ export function GraphProvider({ children }: { children: React.ReactNode }) {
     setEdges,
     vertexCount,
     setVertexCount,
+    isDirected,
+    setIsDirected
   };
 
   return (

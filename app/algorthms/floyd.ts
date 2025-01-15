@@ -50,7 +50,7 @@ export function floyd(edges: Edge[], vertexCount: number, begin: number) {
   };
 
   // Tìm đường đi từ begin đến mọi đỉnh khác
-  for (let end = 1; end <= vertexCount; end++) {
+  for (let end = 0; end <= vertexCount; end++) {
     if (end !== begin) {
       const path: Edge[] = [];
       let current = begin;
