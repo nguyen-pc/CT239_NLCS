@@ -80,7 +80,7 @@ export function FlowGraph() {
   // Xử lý sự kiện khi nodes thay đổi (kéo thả)
   const onNodesChange: OnNodesChange = React.useCallback(
     (changes) => setNodes((nds) => applyNodeChanges(changes, nds)),
-    []
+    [setNodes]
   );
 
   const onEdgesChange: OnEdgesChange = React.useCallback(
@@ -113,7 +113,7 @@ export function FlowGraph() {
         label: `${edge.weight}`,
         type: "smoothstep",
         style: { stroke: "#666",strokeWidth: 3  },
-        labelStyle: { fill: "#666" },
+        labelStyle: { fill: "#000", fontSize: 20 },
         markerEnd: !isDirected ? null :{
            type: "arrow",
           width: 20,

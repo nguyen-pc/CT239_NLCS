@@ -67,7 +67,7 @@ const Sidebar = () => {
 
     // Tạo tập hợp các cạnh có thể có
     const possibleEdges = [];
-    for (let i = 1; i < vertexCount; i++) {
+    for (let i = 0; i < vertexCount; i++) {
       for (let j = i + 1; j < vertexCount; j++) {
         possibleEdges.push([i, j]);
       }
@@ -99,7 +99,7 @@ const Sidebar = () => {
     <div className="w-[500px] border border-gray-400">
       <div className="ml-4 mr-4">
         <h3 className=" mt-2 mb-2 text-center font-bold text-lg ">
-          Nhập danh sách cạnh có hướng
+          Nhập danh sách cạnh 
         </h3>
         <div className="space-x-2 mb-3 flex justify-between ">
           <Button className="w-[150px] h-[40px]" onClick={generateRandomEdges}>
