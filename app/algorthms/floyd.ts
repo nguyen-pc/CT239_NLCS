@@ -75,18 +75,17 @@ export function floyd(edges: Edge[], vertexCount: number, begin: number) {
     }
   }
 
-  // Convert paths to the desired format
   const formattedPaths = Object.entries(result.paths)
     .map(([endVertex, path]) => {
-      if (path.length === 0) return null; // Handle empty paths
+      if (path.length === 0) return null;
 
-      const source = path[0].source; // Source from the first edge
-      const target = path[path.length - 1].target; // Target from the last edge
-      const weight = path.reduce((total, edge) => total + edge.weight, 0); // Sum of weights
+      const source = path[0].source;
+      const target = path[path.length - 1].target;
+      const weight = path.reduce((total, edge) => total + edge.weight, 0);
 
       return { source, target, weight };
     })
-    .filter(Boolean); // Filter out any null values
+    .filter(Boolean);
 
   console.log(formattedPaths);
 
@@ -95,3 +94,45 @@ export function floyd(edges: Edge[], vertexCount: number, begin: number) {
     distance: result.distances,
   };
 }
+
+// export function floyd(edges: Edge[], vertexCount: number, begin: number) {
+//   // Khởi tạo ma trận khoảng cách và ma trận truy vết
+
+//   const graph: number[][] = Array.from({ length: vertexCount }, () =>
+//     Array(vertexCount).fill(0)
+//   );
+//   console.log(edges);
+
+//   // Điền thông tin cạnh vào ma trận khoảng cách
+//   edges.forEach((edge) => {
+//     graph[edge.source][edge.target] = edge.weight;
+//     // graph[edge.target][edge.source] = edge.weight;
+//   });
+//   console.log(graph);
+//   const n = graph.length;
+//   const dist = Array.from(Array(n), () => new Array(n).fill(0));
+//   const trace = Array.from(Array(n), () => new Array(n).fill(-1));
+//   for (let i = 0; i < n; i++) {
+//     for (let j = 0; j < n; j++) {
+//       if (graph[i][j] == 0) dist[i][j] = Infinity;
+//       else dist[i][j] = graph[i][j];
+//       if (graph[i][j] !== 0 && i !== j) {
+//         trace[i][j] = i;
+//       }
+//     }
+//   }
+
+//   for (let k = 0; k < n; k++) {
+//     for (let i = 0; i < n; i++) {
+//       for (let j = 0; j < n; j++) {
+//         if (dist[i][k] + dist[k][j] < dist[i][j]) {
+//           dist[i][j] = dist[i][k] + dist[k][j];
+//           trace[i][j] = trace[k][j];
+//         }
+//       }
+//     }
+//   }
+
+//   console.log(dist, trace);
+//   return { dist, trace, graph };
+// }

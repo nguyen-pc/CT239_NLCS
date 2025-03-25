@@ -4,7 +4,7 @@ interface Edge {
   weight: number;
 }
 
-export function prim(edges: Edge[], vertexCount: number) {
+export function prim(edges: Edge[], vertexCount: number, begin: number) {
   // Khởi tạo ma trận kề với giá trị 0
   const graph = Array(vertexCount)
     .fill(0)
@@ -27,7 +27,7 @@ export function prim(edges: Edge[], vertexCount: number) {
   const parent = Array(vertexCount).fill(-1);
 
   // Bắt đầu từ đỉnh 0
-  key[1] = 0;
+  key[begin] = 0;
   // Tạo danh sách cạnh của MST
   const mst: Edge[] = [];
   let totalWeight = 0;
@@ -36,7 +36,7 @@ export function prim(edges: Edge[], vertexCount: number) {
     let minKey = Number.MAX_VALUE;
     let minIndex = -1;
 
-    for (let v = 1; v < vertexCount; v++) {
+    for (let v = 0; v < vertexCount; v++) {
       if (!visited[v] && key[v] < minKey) {
         minKey = key[v];
         minIndex = v;

@@ -15,10 +15,8 @@ const Sidebar = () => {
 
   const [directed, setDirected] = React.useState(false);
 
-  console.log(directed)
-  setIsDirected(directed)
-  
-
+  console.log(directed);
+  setIsDirected(directed);
 
   // Hàm xử lý danh sách cạnh đầu vào
   const handleEdgesInput = () => {
@@ -27,6 +25,11 @@ const Sidebar = () => {
       const lines = edgesInput.split("\n").filter((line) => line.trim());
       const edges = [];
       let maxVertex = -1;
+
+      if (lines.length === 0) {
+        alert("Vui lòng nhập danh sách cạnh!");
+        return;
+      }
 
       for (const line of lines) {
         // Tách source, target và weight
@@ -99,7 +102,7 @@ const Sidebar = () => {
     <div className="w-[500px] border border-gray-400">
       <div className="ml-4 mr-4">
         <h3 className=" mt-2 mb-2 text-center font-bold text-lg ">
-          Nhập danh sách cạnh 
+          Nhập danh sách cạnh
         </h3>
         <div className="space-x-2 mb-3 flex justify-between ">
           <Button className="w-[150px] h-[40px]" onClick={generateRandomEdges}>
@@ -119,7 +122,7 @@ const Sidebar = () => {
         </div>
         <div>
           <Textarea
-            className="h-[300px] font-mono"
+            className="h-[150px] font-mono"
             value={edgesInput}
             onChange={(e) => setEdgesInput(e.target.value)}
             placeholder={`Nhập danh sách cạnh theo định dạng: source target weight
@@ -134,13 +137,13 @@ const Sidebar = () => {
           />
         </div>
         <div className="mt-3">
-          <label
-            htmlFor="terms2"
-            className="text-lg font-medium mr-2"
-          >
-           Có hướng
+          <label htmlFor="terms2" className="text-lg font-medium mr-2">
+            Có hướng
           </label>
-          <Checkbox checked={directed} onCheckedChange={(checked) => setDirected(checked)} />
+          <Checkbox
+            checked={directed}
+            onCheckedChange={(checked) => setDirected(checked)}
+          />
         </div>
         <div className="mt-2">
           <Button onClick={handleEdgesInput}>Tạo đồ thị</Button>

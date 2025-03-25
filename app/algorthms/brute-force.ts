@@ -34,9 +34,8 @@ export function bruteForce(
     currentCost: number
   ) {
     const currentNode = path[path.length - 1];
-    const nodeId = `${path.join("->")}`; // Unique identifier for this state
+    const nodeId = `${path.join("->")}`;
 
-    // Add the current node to the nodes array
     resultNodes.push({
       id: nodeId,
       node: currentNode,
@@ -45,12 +44,10 @@ export function bruteForce(
       isLeaf: path.length === n + 1,
     });
 
-    // If all nodes are visited, return to the start node
     if (path.length === n + 1) {
       return;
     }
 
-    // Explore all unvisited nodes
     for (let nextNode = 0; nextNode < n; nextNode++) {
       if (!visited.has(nextNode) && graph[currentNode][nextNode] !== 0) {
         const newVisited = new Set(visited);
@@ -60,19 +57,16 @@ export function bruteForce(
 
         const childId = `${newPath.join("->")}`;
 
-        // Add the edge to the edges array
         resultEdges.push({
           from: nodeId,
           to: childId,
           cost: graph[currentNode][nextNode],
         });
 
-        // Recursively build the tree for the child
         buildTree(newPath, newVisited, newCost);
       }
     }
 
-    // If all nodes are visited, return to the start node
     if (path.length === n) {
       const returnCost = graph[currentNode][startNode];
       const newPath = [...path, startNode];
@@ -80,14 +74,12 @@ export function bruteForce(
 
       const childId = `${newPath.join("->")}`;
 
-      // Add the edge to return to the starting node
       resultEdges.push({
         from: nodeId,
         to: childId,
         cost: returnCost,
       });
 
-      // Add the final node
       resultNodes.push({
         id: childId,
         node: startNode,
@@ -98,7 +90,6 @@ export function bruteForce(
     }
   }
 
-  // Start building the tree from the starting node
   const visited = new Set<number>();
   visited.add(startNode);
   buildTree([startNode], visited, 0);

@@ -12,7 +12,7 @@ import {
 
 const Header = () => {
   return (
-    <header className="items-center justify-between gap-4 p-4 sm:flex  xl:gap-7 !important">
+    <header className="items-center justify-between gap-4 pl-5 pr-5 sm:flex  xl:gap-7 !important">
       <Image src="/assets/logo.jpg" alt="logo" width={50} height={50} />
       <Dialog>
         <DialogTrigger>
@@ -21,7 +21,7 @@ const Header = () => {
         <DialogContent>
           <DialogHeader>
             <DialogTitle>Niên luận ngành kĩ thuật phần mềm</DialogTitle>
-            <DialogDescription >
+            <DialogDescription>
               SVTH: NGUYỄN HOÀNG THANH NGUYÊN - MSSV: B2203516
             </DialogDescription>
             <DialogDescription>
@@ -30,7 +30,6 @@ const Header = () => {
           </DialogHeader>
         </DialogContent>
       </Dialog>
-    
     </header>
   );
 };
