@@ -109,12 +109,14 @@ export function ComboboxDemo() {
 
     switch (subValue) {
       case "brute-force":
-        const resultBrute = bruteForce(edges, vertexCount, 0);
+       
+        const resultBrute = bruteForce(edges, vertexCount, 0, isDirected);
         setAlgorithmResultBrute(resultBrute);
         console.log(resultBrute);
         break;
       case "branchAndBound":
-        const resultBranchAndBound = branchAndBoundTSP(edges, vertexCount, 0);
+
+        const resultBranchAndBound = branchAndBoundTSP(edges, vertexCount, 0, isDirected);
         console.log(resultBranchAndBound);
         setAlgorithmResultBranchAndBound(resultBranchAndBound);
         break;
@@ -182,7 +184,8 @@ export function ComboboxDemo() {
           edges,
           vertexCount,
           parseInt(sourceVertex),
-          parseInt(targetVertex)
+          parseInt(targetVertex),
+          isDirected
         );
         console.log(selectedFramework?.subOptions);
         console.log(resultDijkstra);
@@ -196,7 +199,7 @@ export function ComboboxDemo() {
           alert("Vui lòng chọn đỉnh nguồn!");
           return;
         }
-        const resultFloyd = floyd(edges, vertexCount, parseInt(sourceVertex));
+        const resultFloyd = floyd(edges, vertexCount, parseInt(sourceVertex), isDirected);
         console.log(resultFloyd);
 
         setAlgorithmResultDijkstra(resultFloyd);

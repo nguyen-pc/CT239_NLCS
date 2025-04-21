@@ -7,7 +7,8 @@ interface Edge {
 export function bruteForce(
   edges: Edge[],
   vertexCount: number,
-  startNode: number = 0
+  startNode: number = 0,
+  isDirected: boolean
 ) {
   // Tạo ma trận kề với kích thước chính xác
   const graph: number[][] = [];
@@ -19,7 +20,9 @@ export function bruteForce(
   edges.forEach((edge) => {
     if (edge.source <= vertexCount && edge.target <= vertexCount) {
       graph[edge.source][edge.target] = edge.weight;
-      // graph[edge.target][edge.source] = edge.weight;   //Do thi co huong
+      if(!isDirected){
+        graph[edge.target][edge.source] = edge.weight; //Do thi vo huong
+      }
     }
   });
 

@@ -142,7 +142,7 @@ const Sidebar = () => {
           </label>
           <Checkbox
             checked={directed}
-            onCheckedChange={(checked) => setDirected(checked)}
+            onCheckedChange={(checked) => setDirected(checked === true)}
           />
         </div>
         <div className="mt-2">

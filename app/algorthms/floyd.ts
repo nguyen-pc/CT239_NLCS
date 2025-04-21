@@ -4,7 +4,12 @@ interface Edge {
   weight: number;
 }
 
-export function floyd(edges: Edge[], vertexCount: number, begin: number) {
+export function floyd(
+  edges: Edge[],
+  vertexCount: number,
+  begin: number,
+  isDirected: boolean
+) {
   // Khởi tạo ma trận khoảng cách và ma trận truy vết
   const dist: number[][] = [];
   const next: number[][] = [];
@@ -19,9 +24,13 @@ export function floyd(edges: Edge[], vertexCount: number, begin: number) {
   // Điền thông tin cạnh vào ma trận khoảng cách
   edges.forEach((edge) => {
     dist[edge.source][edge.target] = edge.weight;
-    // dist[edge.target][edge.source] = edge.weight;
+    if (!isDirected) {
+      dist[edge.target][edge.source] = edge.weight;
+    }
     next[edge.source][edge.target] = edge.target;
-    // next[edge.target][edge.source] = edge.source;
+    if (isDirected) {
+      next[edge.target][edge.source] = edge.source;
+    }
   });
 
   // Thuật toán Floyd-Warshall

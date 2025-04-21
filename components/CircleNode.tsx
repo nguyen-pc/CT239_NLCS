@@ -1,12 +1,13 @@
 "use client";
 
 import { Handle, Position } from "@xyflow/react";
+import { useGraph } from "@/context/GraphContext";
 
 function CircleNode({ data }: { data: { label: string } }) {
   return (
     <div
       style={{
-        background: "#fff",
+        // background: "#fff",
         border: "2px solid #2563eb",
         borderRadius: "50%",
         width: "50px",

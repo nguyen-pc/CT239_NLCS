@@ -47,6 +47,8 @@ export function FlowGraph() {
     isDirected,
     source,
     target,
+    setSource,
+    setTarget,
   } = useGraph();
   const [nodes, setNodes] = React.useState([]);
   const [edges, setEdges] = React.useState([]);
@@ -93,13 +95,13 @@ export function FlowGraph() {
     [setEdges]
   );
 
-  const onConnect: OnConnect = React.useCallback(
-    (connection) => {
-      console.log("Kết nối mới:", connection);
-      setEdges((eds) => addEdge(connection, eds));
-    },
-    [setEdges]
-  );
+  // const onConnect: OnConnect = React.useCallback(
+  //   (connection) => {
+  //     console.log("Kết nối mới:", connection);
+  //     setEdges((eds) => addEdge(connection, eds));
+  //   },
+  //   [setEdges]
+  // );
 
   // Vẽ đồ thị ban đầu khi có dữ liệu edges mới
   // React.useEffect(() => {
@@ -179,7 +181,7 @@ export function FlowGraph() {
           data: { label: `${i}` },
           draggable: true,
           style: {
-            background: "green",
+            background: "#fff",
             color: "black",
             borderRadius: "50%",
           },
@@ -252,75 +254,72 @@ export function FlowGraph() {
         ...node,
         style: {
           ...node.style,
-          backgroundColor:
+          background:
             node.id === String(source)
-              ? "green !important"
+              ? "green"
               : node.id === String(target)
-              ? "red !important"
+              ? "red "
               : "white",
           color:
             node.id === String(source) || node.id === String(target)
-              ? "black"
+              ? "white"
               : "black",
         },
       }));
 
       setEdges(updatedEdges);
       setNodes(updatedNodes);
+      // setSource(null)
+      // setTarget(null)
     }
   }, [algorithmResult, source, target]);
 
-  React.useEffect(
-    () => {
-      if (algorithmResultDijkstra && edges.length > 0) {
-        const updatedEdges = edges.map((edge) => {
-          const isInDijkstra = algorithmResultDijkstra.path.some(
-            (dijkstraEdge) =>
-              `${dijkstraEdge.source}-${dijkstraEdge.target}` === edge.id ||
-              `${dijkstraEdge.target}-${dijkstraEdge.source}` === edge.id
-          );
+  React.useEffect(() => {
+    if (algorithmResultDijkstra && edges.length > 0) {
+      const updatedEdges = edges.map((edge) => {
+        const isInDijkstra = algorithmResultDijkstra.path.some(
+          (dijkstraEdge) =>
+            `${dijkstraEdge.source}-${dijkstraEdge.target}` === edge.id ||
+            `${dijkstraEdge.target}-${dijkstraEdge.source}` === edge.id
+        );
 
-          if (isInDijkstra) {
-            return {
-              ...edge,
-              style: { stroke: "red", strokeWidth: 3 },
-              labelStyle: { fill: "#2563eb", fontSize: 20 },
-              markerEnd: {
-                ...edge.markerEnd,
-                color: "red",
-              },
-            };
-          }
-          return edge;
-        });
+        if (isInDijkstra) {
+          return {
+            ...edge,
+            style: { stroke: "red", strokeWidth: 3 },
+            labelStyle: { fill: "#2563eb", fontSize: 20 },
+            markerEnd: {
+              ...edge.markerEnd,
+              color: "red",
+            },
+          };
+        }
+        return edge;
+      });
 
-        // Cập nhật màu sắc của nodes
-        const updatedNodes = nodes.map((node) => ({
-          ...node,
-          style: {
-            ...node.style,
-            backgroundColor:
-              node.id === String(source)
-                ? "green !important"
-                : node.id === String(target)
-                ? "red !important"
-                : "white",
-            color:
-              node.id === String(source) || node.id === String(target)
-                ? "black"
-                : "black",
-          },
-        }));
+      // Cập nhật màu sắc của nodes
+      const updatedNodes = nodes.map((node) => ({
+        ...node,
+        style: {
+          ...node.style,
+          background:
+            node.id === String(source)
+              ? "green "
+              : node.id === String(target)
+              ? "red "
+              : "white",
+          color:
+            node.id === String(source) || node.id === String(target)
+              ? "white"
+              : "black",
+        },
+      }));
 
-        setEdges(updatedEdges);
-        setNodes(updatedNodes);
-        console.log(nodes, edges);
-      }
-    },
-    [algorithmResultDijkstra],
-    source,
-    target
-  );
+      setEdges(updatedEdges);
+      setNodes(updatedNodes);
+      console.log(nodes, edges);
+    }
+  }, [algorithmResultDijkstra, source, target]);
 
   // React.useEffect(
   //   () => {
@@ -582,7 +581,7 @@ export function FlowGraph() {
         fitView
         onNodesChange={onNodesChange}
         onEdgesChange={onEdgesChange}
-        onConnect={onConnect}
+        // onConnect={onConnect}
         // edgesUpdatable={true}
         elementsSelectable={true}
         defaultEdgeOptions={{

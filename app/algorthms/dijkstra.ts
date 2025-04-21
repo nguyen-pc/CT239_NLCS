@@ -23,7 +23,8 @@ export function dijkstra(
   edges: Edge[],
   vertexCount: number,
   begin: number,
-  end: number
+  end: number,
+  isDirected: boolean
 ) {
   console.log(begin, end, edges, vertexCount);
   // Tạo ma trận kề với kích thước chính xác
@@ -35,8 +36,12 @@ export function dijkstra(
   // Dien thong tin vao ma tran ke
   edges.forEach((edge) => {
     if (edge.source <= vertexCount && edge.target <= vertexCount) {
-      graph[edge.source][edge.target] = edge.weight;
-      // graph[edge.target][edge.source] = edge.weight;   //Do thi co huong
+      if (isDirected) {
+        graph[edge.source][edge.target] = edge.weight;
+      } else {
+        graph[edge.source][edge.target] = edge.weight;
+        graph[edge.target][edge.source] = edge.weight;
+      }
     }
   });
 
@@ -89,3 +94,4 @@ export function dijkstra(
     distance: dist[end],
   };
 }
+

@@ -17,7 +17,7 @@ export function chuLiuEdmonds(
   root: number
 ) {
   console.log("root", root);
-  let minEdges: (Edge | null)[] = Array(vertexCount).fill(null);
+  const minEdges: (Edge | null)[] = Array(vertexCount).fill(null);
 
   // Bước 1: Chọn cạnh có trọng số nhỏ nhất đi vào mỗi đỉnh (trừ root)
   edges.forEach((edge) => {
@@ -37,14 +37,14 @@ export function chuLiuEdmonds(
   }
 
   // Bước 2: Kiểm tra chu trình
-  let parent = Array(vertexCount).fill(-1);
-  let visited = Array(vertexCount).fill(-1);
+  const parent = Array(vertexCount).fill(-1);
+  const visited = Array(vertexCount).fill(-1);
   let cycle: number[] = [];
 
   for (let i = 0; i < vertexCount; i++) {
     if (i === root || visited[i] !== -1) continue;
 
-    let curPath: Set<number> = new Set();
+    const curPath: Set<number> = new Set();
     let node = i;
     while (node !== root && visited[node] === -1) {
       visited[node] = i;
@@ -60,20 +60,20 @@ export function chuLiuEdmonds(
 
   // Nếu không có chu trình, tính tổng trọng số và trả về danh sách cạnh
   if (!cycle.length) {
-    let mst = minEdges.filter((edge) => edge !== null) as Edge[];
-    let totalWeight = mst.reduce((sum, edge) => sum + edge.weight, 0);
+    const mst = minEdges.filter((edge) => edge !== null) as Edge[];
+    const totalWeight = mst.reduce((sum, edge) => sum + edge.weight, 0);
     return { mst, totalWeight };
   }
 
   // Bước 3: Nén chu trình thành một siêu đỉnh
-  let cycleSet = new Set(cycle);
-  let newMapping: number[] = Array(vertexCount).fill(-1);
+  const cycleSet = new Set(cycle);
+  const newMapping: number[] = Array(vertexCount).fill(-1);
   let newId = 0;
 
   for (let i = 0; i < vertexCount; i++) {
     if (!cycleSet.has(i)) newMapping[i] = newId++;
   }
-  let cycleNode = newId++;
+  const cycleNode = newId++;
 
   edges = edges.map((edge) => ({
     source: cycleSet.has(edge.source) ? cycleNode : newMapping[edge.source],
@@ -84,15 +84,15 @@ export function chuLiuEdmonds(
   }));
 
   // Bước 4: Tìm cây khung tối thiểu của đồ thị thu nhỏ
-  let newMST = chuLiuEdmonds(edges, newId, newMapping[root]);
+  const newMST = chuLiuEdmonds(edges, newId, newMapping[root]);
 
   if (!newMST.mst.length) return { mst: [], totalWeight: 0 };
 
   // Bước 5: Giải nén siêu đỉnh về cây khung ban đầu
-  let finalEdges: Edge[] = [];
-  for (let edge of newMST.mst) {
+  const finalEdges: Edge[] = [];
+  for (const edge of newMST.mst) {
     if (edge.target === cycleNode) {
-      for (let node of cycle) {
+      for (const node of cycle) {
         if (!cycleSet.has(minEdges[node]!.source)) {
           finalEdges.push(minEdges[node]!);
           break;
@@ -103,7 +103,7 @@ export function chuLiuEdmonds(
     }
   }
 
-  let totalWeight = finalEdges.reduce((sum, edge) => sum + edge.weight, 0);
+  const totalWeight = finalEdges.reduce((sum, edge) => sum + edge.weight, 0);
   return { mst: finalEdges, totalWeight };
 }
 
